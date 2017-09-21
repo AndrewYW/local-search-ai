@@ -20,7 +20,9 @@ def main():
         print(matrix)
         print(get_index_from_matrix(matrix))
         generate_gui(matrix, index)
-        
+
         mainloop()
+
+
 if __name__ == "__main__":
     main()

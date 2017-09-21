@@ -3,8 +3,9 @@ import sys
 from random import randint
 from tkinter import *
 
+
 def generate_random_matrix(index):
-    #generates a random n-by-n matrix
+    # generates a random n-by-n matrix
     matrix = np.zeros([index, index], dtype=int)
     '''
     for x in np.nditer(matrix, op_flags=['readwrite']):
@@ -15,11 +16,13 @@ def generate_random_matrix(index):
             if((i == index - 1) and (j == index - 1)):
                 matrix[i][j] = 0
             else:
-                matrix[i][j] = randint(1, max(index - (i+1), i, index - (j+1), j))
+                matrix[i][j] = randint(
+                    1, max(index - (i + 1), i, index - (j + 1), j))
     return matrix
-    
+
+
 def generate_gui(matrix, index):
-    #creates the gui representation from a given matrix
+    # creates the gui representation from a given matrix
     rows = []
     for i in range(index):
         cols = []
@@ -29,8 +32,12 @@ def generate_gui(matrix, index):
             e.insert(END, '%d' % (matrix[i][j]))
             cols.append(e)
         rows.append(cols)
+
+
 def get_index_from_matrix(matrix):
     return len(matrix[0])
+
+
 def generate_file_matrix(file):
     '''
     generates a matrix from a file

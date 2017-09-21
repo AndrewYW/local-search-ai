@@ -5,15 +5,17 @@ from tkinter import *
 
 n = int(sys.argv[1])
 
-def generate_array(index):
-    s = (index,index)
 
-    a = np.zeros([index,index], dtype=int)
+def generate_array(index):
+    s = (index, index)
+
+    a = np.zeros([index, index], dtype=int)
     for x in np.nditer(a, op_flags=['readwrite']):
-        x[...]= randint(1,3)
+        x[...] = randint(1, 3)
 
     return a
 matrix = generate_array(n)
+
 
 def generate_gui(matrix):
     rows = []
@@ -28,37 +30,37 @@ def generate_gui(matrix):
 '''
 # def max_step(n):
 
-#initialize variables 
+#initialize variables
 
     for c in n:
         c = index % n
-        return c 
-        
-        for r in n: 
+        return c
+
+        for r in n:
             if n == 5:
                 r = {
-                    '0' : n(range(0, 4)), 
+                    '0' : n(range(0, 4)),
                     '1' : n(range(5, 9)),
                     '2' : n(range(10, 14)),
                     '3' : n(range(15, 19)),
                     '4' : n(range(20, 24))
-                } 
+                }
             return r
 
-            elif index == 7: 
+            elif index == 7:
                 r = {
-                    '0' : n(range(0, 6)), 
+                    '0' : n(range(0, 6)),
                     '1' : n(range(7, 13)),
                     '2' : n(range(14, 20)),
                     '3' : n(range(21, 27)),
                     '4' : n(range(28, 34)),
                     '5' : n(range(35, 41)),
                     '6' : n(range(42, 48))
-                } 
-            return r 
+                }
+            return r
 
-            elif index == 9: 
-                r = { 
+            elif index == 9:
+                r = {
                     '0' : n(range(0, 8)),
                     '1' : n(range(9, 17)),
                     '2' : n(range(18, 26)),
@@ -68,11 +70,11 @@ def generate_gui(matrix):
                     '6' : n(range(54, 62)),
                     '7' : n(range(63, 71)),
                     '8' : n(range(72, 80))
-                } 
+                }
             return r
 
-            elif index == 9: 
-                r = { 
+            elif index == 9:
+                r = {
                     '0' : n(range(0, 10)),
                     '1' : n(range(11, 21)),
                     '2' : n(range(22, 32)),
@@ -86,8 +88,8 @@ def generate_gui(matrix):
                     '10' : n(range(110, 120))
                 }
             return r
-            
-            else : 
+
+            else :
                 return 'Error'
 
         return #position

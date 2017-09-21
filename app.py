@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from random import randint
+from tkinter import *
 
 n = int(sys.argv[1])
 
@@ -12,9 +13,20 @@ def generate_array(index):
         x[...]= randint(1,3)
 
     return a
+matrix = generate_array(n)
 
-def max_step(n):
-<<<<<<< HEAD
+def generate_gui(matrix):
+    rows = []
+    for i in range(n):
+        cols = []
+        for j in range(n):
+            e = Entry(relief=RIDGE)
+            e.grid(row=i, column=j, sticky=NSEW)
+            e.insert(END, '%d' % (matrix[i][j]))
+            cols.append(e)
+        rows.append(cols)
+'''
+# def max_step(n):
 
 #initialize variables 
 
@@ -81,7 +93,10 @@ def max_step(n):
         return #position
     return #position
 
-=======
-    
->>>>>>> 671b7063913c6e86462e7099959af2745722143b
-print generate_array(n)
+'''
+
+print(matrix)
+generate_gui(matrix)
+
+
+mainloop()

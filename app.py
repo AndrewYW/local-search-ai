@@ -14,6 +14,7 @@ def generate_array(index):
     return a
 
 def max_step(n):
+<<<<<<< HEAD
 
 #initialize variables 
 
@@ -80,4 +81,7 @@ def max_step(n):
         return #position
     return #position
 
+=======
+    
+>>>>>>> 671b7063913c6e86462e7099959af2745722143b
 print generate_array(n)

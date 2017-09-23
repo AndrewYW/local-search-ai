@@ -9,17 +9,18 @@ def main():
         index = int(input('Enter index\n'))
         matrix = generate_random_matrix(index)
         print(matrix)
-        generate_gui(matrix, index)
+        root = tk.Tk()
+        root.title('local-search-ai')
+        generate_gui(matrix, index, root)
 
-        mainloop()
     elif(mode == 2):
         file = input('Enter file name\n')
         matrix = generate_file_matrix(file)
         index = get_index_from_file(file)
         print(matrix)
-        generate_gui(matrix, index)
+        root = tk.Tk()
+        generate_gui(matrix, index, root)
 
-        mainloop()
 
 
 if __name__ == "__main__":

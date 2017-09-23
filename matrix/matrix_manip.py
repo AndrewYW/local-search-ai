@@ -45,6 +45,7 @@ def generate_file_matrix(file):
     '''
     generates a matrix from a file
     file input format:
+    n
     2 2 2 4 3
     2 2 3 3 3
     3 3 2 3 3

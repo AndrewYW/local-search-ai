@@ -14,11 +14,9 @@ def main():
         mainloop()
     elif(mode == 2):
         file = input('Enter file name\n')
-        print(file)
         matrix = generate_file_matrix(file)
-        index = get_index_from_matrix(matrix)
+        index = get_index_from_file(file)
         print(matrix)
-        print(get_index_from_matrix(matrix))
         generate_gui(matrix, index)
 
         mainloop()

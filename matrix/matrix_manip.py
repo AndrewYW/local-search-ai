@@ -34,8 +34,11 @@ def generate_gui(matrix, index):
         rows.append(cols)
 
 
-def get_index_from_matrix(matrix):
-    return len(matrix[0])
+def get_index_from_file(file):
+    f = open(file, 'r')
+    index = int(f.readline())
+    f.close()
+    return index
 
 
 def generate_file_matrix(file):
@@ -49,5 +52,6 @@ def generate_file_matrix(file):
     4 3 2 4 1
     '''
     f = open(file, 'r')
-    matrix = np.loadtxt(file, dtype=int, delimiter=' ')
+    matrix = np.loadtxt(file, dtype=int, delimiter=' ', skiprows=1)
+    f.close()
     return matrix

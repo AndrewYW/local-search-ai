@@ -21,6 +21,9 @@ def create_node_matrix(input_matrix, input_index):
 
     return node_matrix
 
+def get_eval_function(node_matrix, index):
+
+
 #testing
 if __name__ == '__main__':
     matrix = [[3 for x in range(5)] for y in range(5)]

@@ -16,6 +16,7 @@ def generate_random_matrix(index):
                     1, max(index - (i + 1), i, index - (j + 1), j))
     return matrix
 
+
 def get_index_from_file(file):
     f = open(file, 'r')
     index = int(f.readline())

@@ -4,7 +4,8 @@ from gui.gui import *
 
 
 def main():
-    mode = int(input('Choose: 1) Random puzzle generation or 2) Read from file\n'))
+    mode = int(
+        input('Choose: 1) Random puzzle generation or 2) Read from file\n'))
     # Index values can only be 5, 7, 9, 11
     if(mode == 1):
         index = int(input('Enter index\n'))

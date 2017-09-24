@@ -18,15 +18,19 @@ class Application:
                         matrix[row][col]))
                 label.grid(row=row, column=col, sticky="NSEW")
 
-        #tk.Grid.rowconfigure(root, index+1, weight=1)
         self.quitButton = tk.Button(
-            master, text="QUIT", command=self.frame.quit).grid(
-            row=index + 1, sticky="NSEW")
+            master,
+            text="QUIT",
+            command=self.frame.quit).grid(
+            row=index + 1,
+            sticky="NSEW")
 
-        #tk.Grid.rowconfigure(root, index+2, weight=1)
         self.solveButton = tk.Button(
-            master, text="Solve", command=self.solution_maker).grid(
-            row=index + 2, sticky="NSEW")
+            master,
+            text="Solve",
+            command=self.solution_maker).grid(
+            row=index + 2,
+            sticky="NSEW")
 
         self.blorbButton = tk.Button(
             master,
@@ -35,7 +39,6 @@ class Application:
             command=self.blorb_maker).grid(
             row=index + 3,
             sticky="NSEW")
-        #tk.Grid.rowconfigure(root, index+3, weight=1)
 
     def solution_maker(self):
         MakeWindow('Solution')

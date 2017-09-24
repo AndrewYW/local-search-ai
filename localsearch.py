@@ -1,5 +1,6 @@
 import sys
 from matrix.matrix_manip import *
+from gui.gui import *
 
 
 def main():
@@ -10,8 +11,8 @@ def main():
         matrix = generate_random_matrix(index)
         print(matrix)
         root = tk.Tk()
-        root.title('local-search-ai')
-        generate_gui(matrix, index, root)
+        app = Application(root, matrix, index)
+        root.mainloop()
 
     elif(mode == 2):
         file = input('Enter file name\n')
@@ -19,9 +20,8 @@ def main():
         index = get_index_from_file(file)
         print(matrix)
         root = tk.Tk()
-        generate_gui(matrix, index, root)
-
-
+        app = Application(root, matrix, index)
+        root.mainloop()
 
 if __name__ == "__main__":
     main()

@@ -7,10 +7,6 @@ import tkinter as tk
 def generate_random_matrix(index):
     # generates a random n-by-n matrix
     matrix = np.zeros([index, index], dtype=int)
-    '''
-    for x in np.nditer(matrix, op_flags=['readwrite']):
-        x[...] = randint(1, max_steps(index))
-    '''
     for i in range(index):
         for j in range(index):
             if((i == index - 1) and (j == index - 1)):
@@ -19,7 +15,6 @@ def generate_random_matrix(index):
                 matrix[i][j] = randint(
                     1, max(index - (i + 1), i, index - (j + 1), j))
     return matrix
-
 
 def generate_gui(matrix, index, root):
     # creates the gui representation from a given matrix

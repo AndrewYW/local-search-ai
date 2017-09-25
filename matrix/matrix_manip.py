@@ -3,6 +3,49 @@ import sys
 from random import randint
 import tkinter as tk
 
+class Node:
+    #The node class acts as a structure holding each matrix position's children, matrix location (x,y), and whether or not it has been visited, and the depth.
+    #Initialization updates the values accordingly and appends nodes to a list, .children.
+    #The get-depth() function is used for printing out the solution string matrix, which displays either the steps needed to visit a node or an 'X' if it can't be reached.
+    def __init__(self, matrix, x_pos, y_pos):
+        self.steps = matrix[x_pos][y_pos]
+        self.visited = 0
+        self.depth = -1
+        self.children = []
+        self.x = x_pos
+        self.y = y_pos
+        self.pos = 'Node[' + self.x + '][' + self.y + ']'
+        self.get_children(matrix)
+
+    def get_depth(self):
+        if self.depth == -1:
+            return 'X'
+        else:
+            return str(self.depth)
+
+    def get_children(self, matrix):
+        index = len(matrix[0])
+        #up direction
+        if self.x - self.steps >= 0:
+            self.children.append(matrix[self.x - self.steps][self.y])
+        
+        #down
+        if self.x + self.steps < index:
+            self.children.append(matrix[self.x + self.steps][self.y])
+
+        #left
+        if self.y - self.steps >= 0:
+            self.children.append(matrix[self.x][self.y - self.steps])
+
+        #right 
+        if self.y + self.steps < index:
+            self.children.append(matrix[self.x][self.y + self.steps])
+def create_node_matrix(matrix):
+    #creates a matrix of nodes given an integer matrix formed either randomly or from a file.
+    index = len(matrix[0])
+    node_matrix = [[Node(matrix, i, j) for i in range(index)] for j in range(index)]
+    
+    return node_matrix
 
 def generate_random_matrix(index):
     # generates a random n-by-n matrix

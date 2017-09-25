@@ -55,33 +55,28 @@ class Application:
     def set_var(self):
         print(self.var.get())
     def solution_maker(self):
+        nodes = generate_node_matrix(self.matrix)
         if self.var.get() == 1:
-            SolveWindow(self.matrix,
-                    generate_visit_matrix(self.index),
-                    generate_depth_matrix(self.index), 1)
+            SolveWindow(self.matrix, 1)
         elif self.var.get() == 2:
-            SolveWindow(self.matrix,
-                    generate_visit_matrix(self.index),
-                    generate_depth_matrix(self.index), 2)
+            SolveWindow(self.matrix, 2)
         elif self.var.get() == 3:
-            SolveWindow(self.matrix,
-                    generate_visit_matrix(self.index),
-                    generate_depth_matrix(self.index), 3)
+            SolveWindow(self.matrix, 3)
         elif self.var.get() == 4:
-            SolveWindow(self.matrix,
-                    generate_visit_matrix(self.index),
-                    generate_depth_matrix(self.index), 4)
+            SolveWindow(self.matrix, 4)
         elif self.var.get() == 5:
-            SolveWindow(self.matrix,
-                    generate_visit_matrix(self.index),
-                    generate_depth_matrix(self.index), 5)
+            SolveWindow(self.matrix, 5)
         else:
             print('No option selected')
 
 
 class SolveWindow(tk.Toplevel):
-    def __init__(self, step_matrix, visit_matrix, depth_matrix, option):
-        #Option
+    def __init__(self, matrix, eval, time):
+        # Option 1: Basic solve
+        # Option 2: Basic Hill Climbing
+        # Option 3: Random Restart Hill Climbing
+        # Option 4: Random Walk Hill Climbing
+        # Option 5: Simulated Annealing
         tk.Toplevel.__init__(self)
         '''
         print(visit_matrix)
@@ -89,7 +84,9 @@ class SolveWindow(tk.Toplevel):
         print(depth_matrix)
         print('Selection option: ' + str(option))
         '''
-        eval = get_eval_function(depth_matrix)
+
+
+        #eval = get_eval_function(depth_matrix)
 
 
 

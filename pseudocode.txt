@@ -1,0 +1,48 @@
+Basic Solution:
+    Given a node matrix:
+    Node parameters:
+    Step matrix:        Visited matrix:         Depth Matrix:
+    3 2 3               0 0 0                   -1 -1 -1               
+    1 1 1               0 0 0                   -1 -1 -1
+    2 2 2               0 0 0                   -1 -1 -1
+
+    set depth = 0
+
+    visit = 1
+    BFS children list
+
+1: Simple solve
+Inputs: Matrix
+Output: - String depth matrix with X for unreachable
+        - Evaluation Function
+2: Hill climb
+Inputs: Matrix, iterations
+Output: - String depth matrix
+        - Evaluation Function
+        - Time to compute
+3: Random Restart
+Input: Matrix
+        Number of times to start a hill climb
+        Iterations per hill climb
+Output: - String depth matrix 
+        - Eval Function
+        - Time to compute
+
+4: Random Walk
+Input: Matrix
+        Iterations
+        Probability of downhill move
+            - P close to 0, pure hill climb
+            - P close to 1, random walk
+Output: - String depth matrix
+        - Eval Function
+        - Time to compute
+5: Simulated anneal
+Input: Matrix
+        Number of iterations
+        Initial temp
+        Temp decay rate
+Output:
+        - String Depth matrix
+        - Eval Function
+        - Time to compute

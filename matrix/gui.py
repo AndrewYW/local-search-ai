@@ -53,25 +53,25 @@ class Application:
                 row=index + 3,column=1,sticky="NSEW")
 
     def set_var(self):
-        print(self.var)
+        print(self.var.get())
     def solution_maker(self):
-        if self.var == 1:
+        if self.var.get() == 1:
             SolveWindow(self.matrix,
                     generate_visit_matrix(self.index),
                     generate_depth_matrix(self.index), 1)
-        elif self.var == 2:
+        elif self.var.get() == 2:
             SolveWindow(self.matrix,
                     generate_visit_matrix(self.index),
                     generate_depth_matrix(self.index), 2)
-        elif self.var == 3:
+        elif self.var.get() == 3:
             SolveWindow(self.matrix,
                     generate_visit_matrix(self.index),
                     generate_depth_matrix(self.index), 3)
-        elif self.var == 4:
+        elif self.var.get() == 4:
             SolveWindow(self.matrix,
                     generate_visit_matrix(self.index),
                     generate_depth_matrix(self.index), 4)
-        elif self.var == 5:
+        elif self.var.get() == 5:
             SolveWindow(self.matrix,
                     generate_visit_matrix(self.index),
                     generate_depth_matrix(self.index), 5)

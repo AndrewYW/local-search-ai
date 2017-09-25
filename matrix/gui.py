@@ -81,11 +81,17 @@ class Application:
 
 class SolveWindow(tk.Toplevel):
     def __init__(self, step_matrix, visit_matrix, depth_matrix, option):
+        #Option
         tk.Toplevel.__init__(self)
+        '''
         print(visit_matrix)
         print()
         print(depth_matrix)
         print('Selection option: ' + str(option))
+        '''
+        eval = get_eval_function(depth_matrix)
+
+
 
 class MakeWindow(tk.Toplevel):
 

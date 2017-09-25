@@ -1,6 +1,6 @@
 import sys
 from matrix.matrix_manip import *
-from gui.gui import *
+from matrix.gui import *
 
 
 def main():

@@ -17,10 +17,10 @@ def generate_random_matrix(index):
     return matrix
 
 def generate_visit_matrix(index):
-    return np.zeros([index][index], dtype=int)
+    return np.zeros([index, index], dtype=int)
 
 def generate_depth_matrix(index):
-    m = np.empty([index][index], dtype=int)
+    m = np.empty([index, index], dtype=int)
     m.fill(-1)
     return m
 

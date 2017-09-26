@@ -1,5 +1,7 @@
 import tkinter as tk
+from time import time
 from .matrix_manip import *
+from .searches import *
 
 class Application:
 
@@ -33,20 +35,20 @@ class Application:
         self.annealing = tk.Radiobutton(master,text='Simulated Annealing',variable=self.var,value=5,command=self.set_var).grid(
             row=5,sticky="NSEW")
 
-        iter_text= tk.StringVar(master, value='Enter number of iterations')
-        restart_text= tk.StringVar(master, value='Enter number of restarts')
-        prob_text= tk.StringVar(master, value='Enter Walk probability')
-        temp_text= tk.StringVar(master, value='Enter initial temp')
-        decay_text= tk.StringVar(master, value='Enter temp decay rate')
-        self.iterations = tk.Entry(master,textvariable=iter_text).grid(
+        self.iter_text= tk.StringVar(master, value='Enter number of iterations')
+        self.restart_text= tk.StringVar(master, value='Enter number of restarts')
+        self.prob_text= tk.StringVar(master, value='Enter Walk probability')
+        self.temp_text= tk.StringVar(master, value='Enter initial temp')
+        self.decay_text= tk.StringVar(master, value='Enter temp decay rate')
+        self.iterations = tk.Entry(master,textvariable=self.iter_text).grid(
             row=index+1,sticky="NSEW")
-        self.restarts = tk.Entry(master,textvariable=restart_text).grid(
+        self.restarts = tk.Entry(master,textvariable=self.restart_text).grid(
             row=index+2,sticky="NSEW")
-        self.probability = tk.Entry(master,textvariable=prob_text).grid(
+        self.probability = tk.Entry(master,textvariable=self.prob_text).grid(
             row=index+3,sticky="NSEW")
-        self.temperature = tk.Entry(master,textvariable=temp_text).grid(
+        self.temperature = tk.Entry(master,textvariable=self.temp_text).grid(
             row=index+1,column=1,sticky="NSEW")
-        self.tempDecay = tk.Entry(master,textvariable=decay_text).grid(
+        self.tempDecay = tk.Entry(master,textvariable=self.decay_text).grid(
             row=index+2,column=1,sticky="NSEW")
 
         self.solveButton = tk.Button(master,text="Solve",command=self.solution_maker).grid(
@@ -55,28 +57,80 @@ class Application:
     def set_var(self):
         print(self.var.get())
     def solution_maker(self):
-        nodes = generate_node_matrix(self.matrix)
-        if self.var.get() == 1:
-            SolveWindow(self.matrix, 1)
-        elif self.var.get() == 2:
-            SolveWindow(self.matrix, 2)
-        elif self.var.get() == 3:
-            SolveWindow(self.matrix, 3)
-        elif self.var.get() == 4:
-            SolveWindow(self.matrix, 4)
-        elif self.var.get() == 5:
-            SolveWindow(self.matrix, 5)
+        # The button function that solves the given matrix.
+        # Generates a node matrix based on the integer matrix, then feeds into different functions
+        # fields in the node matrix are adjusted by these functions, and then the result is grabbed from them.
+        nodes = create_node_matrix(self.matrix)        
+        if self.var.get() == 1:         #Basic solution - no additional algorithm
+            #solve(nodes[0][0])
+            eval_function = get_eval_from_nodes(nodes)
+            solved_matrix = generate_str_depth_matrix(nodes)
+            SolveWindow(solved_matrix, eval_function, '0')
+        elif self.var.get() == 2:       #Basic Hill Climbing
+            iterations = int(self.iter_text.get())
+            print(iterations)
+
+            start_time = time()
+            #hillclimb(nodes[0][0], iterations)
+            end_time = time()
+
+            eval_function = get_eval_from_nodes(nodes)
+            solved_matrix = generate_str_depth_matrix(nodes)
+            elapsed = str(start_time - end_time)
+            SolveWindow(self.matrix, 2, elapsed)
+        elif self.var.get() == 3:       #Hill CLimbing with random restart
+            iterations = int(self.iter_text.get())
+            restarts = int(self.restart_text.get())
+
+            start_time = time()
+            #random_restart(nodes[0][0], iterations, restarts)
+            end_time = time()
+            
+            eval_function = get_eval_from_nodes(nodes)
+            solved_matrix = generate_str_depth_matrix(nodes)
+            elapsed = str(start_time - end_time)
+            SolveWindow(self.matrix, 3, elapsed)
+        elif self.var.get() == 4:       #Hill Climbing with random walk
+            iterations = int(self.iter_text.get())
+            probability = int(self.prob_text.get())
+
+            start_time = time()
+            #random_walk(nodes[0][0], iterations, probability)
+            end_time = time()
+
+            eval_function = get_eval_from_nodes(nodes)
+            solved_matrix = generate_str_depth_matrix(nodes)
+            elapsed = str(start_time - end_time)
+            SolveWindow(self.matrix, 4, elapsed)
+        elif self.var.get() == 5:       #Simulated Annealing
+            iterations = int(self.iter_text.get())
+            temp = int(self.temp_text.get())
+            decay = int(self.decay_text.get())
+
+            start_time = time()
+            #annealing(nodes[0][0], interations, temp, decay)
+            end_time = time()
+
+            eval_function = get_eval_from_nodes(nodes)
+            solved_matrix = generate_str_depth_matrix(nodes)
+            elapsed = str(start_time - end_time)
+            SolveWindow(self.matrix, 5, elapsed)
         else:
             print('No option selected')
-
-
+    '''
+    def solve(node):
+        return 0
+    def hill_climb(node, iterations):
+        return 0
+    def random_walk(node, iterations, restarts):
+        return 0
+    def random_restart(node, iterations, prob):
+        return 0
+    def annealing(node, iterations, temp, decay):
+        return 0
+    '''
 class SolveWindow(tk.Toplevel):
     def __init__(self, matrix, eval, time):
-        # Option 1: Basic solve
-        # Option 2: Basic Hill Climbing
-        # Option 3: Random Restart Hill Climbing
-        # Option 4: Random Walk Hill Climbing
-        # Option 5: Simulated Annealing
         tk.Toplevel.__init__(self)
         '''
         print(visit_matrix)
@@ -85,8 +139,6 @@ class SolveWindow(tk.Toplevel):
         print('Selection option: ' + str(option))
         '''
 
-
-        #eval = get_eval_function(depth_matrix)
 
 
 

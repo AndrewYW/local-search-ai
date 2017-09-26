@@ -67,15 +67,15 @@ def generate_depth_matrix(index):
     m.fill(-1)
     return m
 
-def generate_str_depth_matrix(depth_matrix):
-    index = len(depth_matrix[0])
+def generate_str_depth_matrix(node_matrix):
+    index = len(node_matrix[0])
     string_matrix = [['' for x in range(index)] for y in range(index)]
     for i in range(index):
         for j in range(index):
-            if depth_matrix[i][j] == -1:
+            if node_matrix[i][j].depth == -1:
                 string_matrix[i][j] = 'X'
             else:
-                string_matrix[i][j] = str(depth_matrix[i][j])
+                string_matrix[i][j] = str(node_matrix[i][j].depth)
 
     return string_matrix
 def get_index_from_file(file):
@@ -101,6 +101,7 @@ def generate_file_matrix(file):
     f.close()
     return matrix
 
+#deprecated
 def get_eval_function(depth_matrix):
     index = len(depth_matrix[0])
     if depth_matrix[index-1][index-1] == -1:
@@ -112,3 +113,15 @@ def get_eval_function(depth_matrix):
         return eval
     else:
         return depth_matrix[index-1][index-1]
+
+def get_eval_from_nodes(node_matrix):
+    index = len(node_matrix[0])
+    if node_matrix[index-1][index-1].depth == -1:
+        eval = 0
+        for i in range(index):
+            for j in range(index):
+                if node_matrix[i][j].depth == -1:
+                    eval -= 1
+        return eval
+    else:
+        return node_matrix[index-1][index-1].depth

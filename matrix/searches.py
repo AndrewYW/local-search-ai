@@ -1,5 +1,6 @@
 from .matrix_manip import *
 import queue
+from copy import copy, deepcopy
 
 def solve(node_matrix):
     q = queue.Queue()
@@ -19,30 +20,43 @@ def hill_climb(node_matrix, iterations):
     # End result: stuff
     index = len(node_matrix[0])
     for step in range(iterations):
-        temp_matrix = node_matrix
+        step_matrix = create_step_matrix(node_matrix)
+        temp_matrix = create_node_matrix(step_matrix)
 
         # Change random steps to random legal move
-        random_step_change(temp_matrix, index)
+        temp_matrix = random_step_change(temp_matrix, index)
+        #print('Node matrix: ')
+        #print_step_matrix(node_matrix)
+        #print('Mutated matrix: ')
+        #print_step_matrix(temp_matrix)
 
         solve(node_matrix)
         solve(temp_matrix)
         node_eval = get_eval_from_nodes(node_matrix)
+        #print('Iteration: ' + str(step))
+        #print('Node eval: ' + str(node_eval))
         temp_eval = get_eval_from_nodes(temp_matrix)
+        #print('Temp eval: ' + str(temp_eval))
 
         # If new evaluation function is better, then node matrix becomes new one
         # Node matrix's depth and visited are reset so you can run solve again
         if temp_eval >= node_eval:
+            #print('Replacing node')
             node_matrix = temp_matrix
             reset_matrix(node_matrix)
         else:
+            #print('Discarding changes')
             reset_matrix(node_matrix)
+    #print("Final mutated matrix: ")
+    #print_step_matrix(node_matrix)
     solve(node_matrix)
+    return node_matrix
 
 def random_restart(node_matrix, iterations, restarts):
     reset_matrix(node_matrix)
     index = len(node_matrix[0])
     for step in range(restarts):
-        temp_matrix = node_matrix
+        temp_matrix = deepcopy(node_matrix)
         hill_climb(temp_matrix, iterations)
         temp_eval = get_eval_from_nodes(temp_matrix)
         node_eval = get_eval_from_nodes(node_matrix)
@@ -81,17 +95,19 @@ def random_walk(node_matrix, iterations, prob):
 
 def annealing(node, iterations, temp, decay):
     return 0
-def random_step_change(node_matrix, index):
+def random_step_change(nodes, index):
     #Select random matrix spot, can't change node_matrix[index-1][index-1]
-    i = randint(1, index-1)
-    j = randint(1, index-1)
-    while i == index-1 and j == index-1:
-        i = randint(1, index-1)
-        j = randint(1, index-1)
+    row = randint(0, index-1)
+    col = randint(0, index-1)
+    while row == index - 1 and col == index -1:
+        row = randint(0, index-1)
+        col = randint(0, index-1)
+    #print('Old steps value: ' + str(nodes[row][col].steps))
+    nodes[row][col].steps = randint(1, max(index-row-1, row, index-col-1, col))
+    #print('Selected position: (' + str(row) + ',' + str(col) + ')')
+    #print('New steps value: ' + str(nodes[row][col].steps))
 
-    #Generate new step value
-    node_matrix[i][j].steps = randint(
-        1, max(index - (i + 1), i, index - (j + 1), j))
+    return nodes
 def reset_matrix(node_matrix):
     index = len(node_matrix[0])
     for i in range(index):

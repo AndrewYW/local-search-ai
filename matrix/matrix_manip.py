@@ -39,7 +39,6 @@ class Node:
         right = self.y + self.steps
         if right < self.index:
             self.children.append(get_node(nodes, self.x, right))
-
 def get_node(nodes, x, y):
     return nodes[x][y]
 def create_node_matrix(matrix):
@@ -153,3 +152,35 @@ def print_edges(nodes):
             print(childs)
             print(steps)
             print()
+def print_step_matrix(nodes):
+    for row in nodes:
+        for node in row:
+            print(node.steps, end = " ")
+        print()
+
+def print_depth_matrix(nodes):
+    for row in nodes:
+        for node in row:
+            print(node.depth, end = ' ')
+        print()
+
+
+def create_step_matrix(nodes):
+    step_matrix = []
+    index = len(nodes)
+
+    for i in range(index):
+        step_matrix.append([])
+        for j in range(index):
+            step_matrix[i].append(nodes[i][j].steps)
+
+    return step_matrix
+"""
+def clone_matrix(nodes, step_matrix):
+    index = len(nodes)
+    clone = []
+    for i in range(index):
+        clone.append([])
+        for j in range(index):
+            clone[i].append(Node(step_matrix, i, j))
+"""

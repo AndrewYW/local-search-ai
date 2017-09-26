@@ -68,17 +68,28 @@ class Application:
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             SolveWindow(solved_matrix, eval_function, '0')
+            reset_matrix(nodes)
         elif self.var.get() == 2:       #Basic Hill Climbing
             iterations = int(self.iter_text.get())
-            print(iterations)
-
+            #solve(nodes)
+            #eval_f= get_eval_from_nodes(nodes)
+            #SolveWindow(generate_str_depth_matrix(nodes), eval_f, '0')
+            #reset_matrix(nodes)
             start_time = time()
-            #hillclimb(nodes[0][0], iterations)
-            end_time = time()
+            solution = hill_climb(nodes, iterations)
+            end_time = time() - start_time
 
-            eval_function = get_eval_from_nodes(nodes)
-            solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(start_time - end_time)
+            '''            
+            print("Solution matrix: ")
+            print_step_matrix(solution)
+
+            print("Solution depth matrix")
+            print_depth_matrix(solution)
+            '''
+
+            eval_function = get_eval_from_nodes(solution)
+            solved_matrix = generate_str_depth_matrix(solution)
+            elapsed = str(end_time)
             SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 3:       #Hill CLimbing with random restart
             iterations = int(self.iter_text.get())
@@ -86,11 +97,11 @@ class Application:
 
             start_time = time()
             #random_restart(nodes[0][0], iterations, restarts)
-            end_time = time()
+            end_time = time() - start_time
             
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(start_time - end_time)
+            elapsed = str(end_time) + '  seconds'
             SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 4:       #Hill Climbing with random walk
             iterations = int(self.iter_text.get())
@@ -102,7 +113,7 @@ class Application:
 
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(start_time - end_time)
+            elapsed = str(end_time - start_time)
             SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 5:       #Simulated Annealing
             iterations = int(self.iter_text.get())
@@ -115,7 +126,7 @@ class Application:
 
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(start_time - end_time)
+            elapsed = str(end_time - start_time)
             SolveWindow(solved_matrix, eval_function, elapsed)
         else:
             print('No option selected')
@@ -148,10 +159,11 @@ class SolveWindow(tk.Toplevel):
             row=2, column=index+2, sticky="NSEW")
 
         if time != '0':
+            time += 'seconds'
             time_label = tk.Label(self, text='Elapsed time:').grid(
-                row=3, column=1, sticky="NSEW")
+                row=3, column=index+1, sticky="NSEW")
             time_value = tk.Label(self, text=time).grid(
-                row=4, column=2, sticky="NSEW")
+                row=4, column=index+2, sticky="NSEW")
 
 
 # Test stuff

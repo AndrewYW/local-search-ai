@@ -81,17 +81,24 @@ def create_node_matrix(matrix):
         node_matrix.append([])
         for j in range(index):
             node_matrix[i].append(Node(matrix, i, j))
+    for row in node_matrix:
+        for node in row:
+            if not node.steps == 0:
+                node.get_up(node_matrix)
+                node.get_down(node_matrix)
+                node.get_left(node_matrix)
+                node.get_right(node_matrix)
+    '''            
     for row, i in enumerate(node_matrix):
         for col, j in enumerate(i):
-            if row == index and col == index:
-                pass
-            else:
+            if not (row == index and col == index):
                 print('position [' + str(row) + '][' + str(col) + ']')
                 print('Step value: ' + str(node_matrix[row][col].steps))
                 node_matrix[row][col].get_up(node_matrix)
                 node_matrix[row][col].get_down(node_matrix)
                 node_matrix[row][col].get_left(node_matrix)
                 node_matrix[row][col].get_right(node_matrix)
+    
     print('nodes[4][3]')
     drn = len(node_matrix[4][3].children)
     drp = len(node_matrix[2][1].children)
@@ -102,6 +109,8 @@ def create_node_matrix(matrix):
     for x in range(drp):
         print(node_matrix[2][1].children[x].get_pos())
         print(node_matrix[2][1].children[x].steps)
+    '''
+    print_edges(node_matrix)
     return node_matrix
 
 def generate_random_matrix(index):
@@ -182,3 +191,17 @@ def get_eval_from_nodes(node_matrix):
         return eval
     else:
         return node_matrix[index-1][index-1].depth
+
+def print_edges(nodes):
+    for row in nodes:
+        for node in row:
+            print('Position: ' + node.get_pos())
+            print('Position step: ' + str(node.steps))
+            childs = 'Children: '
+            steps = 'Kid steps:'
+            for child in node.children:
+                childs += child.get_pos()
+                steps += str(child.steps) + ', '
+            print(childs)
+            print(steps)
+            print()

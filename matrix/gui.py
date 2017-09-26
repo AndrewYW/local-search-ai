@@ -51,7 +51,7 @@ class Application:
         self.tempDecay = tk.Entry(master,textvariable=self.decay_text).grid(
             row=index+2,column=1,sticky="NSEW")
 
-        self.solveButton = tk.Button(master,text="Solve",command=self.solution_maker).grid(
+        self.solveButton = tk.Button(master,text="Solve",relief=tk.RAISED,command=self.solution_maker).grid(
                 row=index + 3,column=1,sticky="NSEW")
 
     def set_var(self):
@@ -60,7 +60,9 @@ class Application:
         # The button function that solves the given matrix.
         # Generates a node matrix based on the integer matrix, then feeds into different functions
         # fields in the node matrix are adjusted by these functions, and then the result is grabbed from them.
+
         nodes = create_node_matrix(self.matrix)        
+
         if self.var.get() == 1:         #Basic solution - no additional algorithm
             #solve(nodes[0][0])
             eval_function = get_eval_from_nodes(nodes)
@@ -77,7 +79,7 @@ class Application:
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             elapsed = str(start_time - end_time)
-            SolveWindow(self.matrix, 2, elapsed)
+            SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 3:       #Hill CLimbing with random restart
             iterations = int(self.iter_text.get())
             restarts = int(self.restart_text.get())
@@ -89,7 +91,7 @@ class Application:
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             elapsed = str(start_time - end_time)
-            SolveWindow(self.matrix, 3, elapsed)
+            SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 4:       #Hill Climbing with random walk
             iterations = int(self.iter_text.get())
             probability = int(self.prob_text.get())
@@ -101,7 +103,7 @@ class Application:
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             elapsed = str(start_time - end_time)
-            SolveWindow(self.matrix, 4, elapsed)
+            SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 5:       #Simulated Annealing
             iterations = int(self.iter_text.get())
             temp = int(self.temp_text.get())
@@ -114,46 +116,48 @@ class Application:
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             elapsed = str(start_time - end_time)
-            SolveWindow(self.matrix, 5, elapsed)
+            SolveWindow(solved_matrix, eval_function, elapsed)
         else:
             print('No option selected')
-    '''
-    def solve(node):
-        return 0
-    def hill_climb(node, iterations):
-        return 0
-    def random_walk(node, iterations, restarts):
-        return 0
-    def random_restart(node, iterations, prob):
-        return 0
-    def annealing(node, iterations, temp, decay):
-        return 0
-    '''
+
 class SolveWindow(tk.Toplevel):
     def __init__(self, matrix, eval, time):
+        # matrix: string matrix of depth values
+        # eval: integer, evaluation function
+        # time: string of a float, elapsed time of operation
+        #       if time = '0', do not add time elapsed label
         tk.Toplevel.__init__(self)
-        '''
-        print(visit_matrix)
-        print()
-        print(depth_matrix)
-        print('Selection option: ' + str(option))
-        '''
+        self.frame = tk.Frame(self)
+        tk.Grid.rowconfigure(self.frame, 0, weight=1)
+        tk.Grid.columnconfigure(self.frame, 0, weight=1)
 
+        self.frame.grid(row=0, column=0, sticky="NSEW")
+        index = len(matrix[0])
+        for row in range(index):
+            tk.Grid.rowconfigure(self.frame, row, weight=1)
+            for col in range(index):
+                tk.Grid.columnconfigure(self.frame, col, weight=1)
+                label = tk.Label(
+                    self, relief=tk.RIDGE, text=str(
+                        matrix[row][col]))
+                label.grid(row=row, column=col, sticky="NSEW")
 
+        eval_label = tk.Label(self, text='Evaluation function:').grid(
+            row=index+1, sticky="NSEW")
+        eval_value = tk.Label(self, text=str(eval)).grid(
+            row=index+2, sticky="NSEW")
 
-
-class MakeWindow(tk.Toplevel):
-
-    def __init__(self, message):
-        tk.Toplevel.__init__(self)  # instead of super
-        self.message = message
-        self.display = tk.Label(self, text=message)
-        self.display.pack()
+        if time != '0':
+            time_label = tk.Label(self, text='Elapsed time:').grid(
+                row=index+1, column=1, sticky="NSEW")
+            time_value = tk.Label(self, text=time).grid(
+                row=index+2, column=1, sticky="NSEW")
 
 
 # Test stuff
 if __name__ == '__main__':
     root = tk.Tk()
-    matrix = [[0 for x in range(5)] for y in range(5)]
+    matrix = [['4' for x in range(5)] for y in range(5)]
     app = Application(root, matrix, 5)
+    # window=SolveWindow(matrix, 11, '3.4225235')
     root.mainloop()

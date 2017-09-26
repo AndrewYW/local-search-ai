@@ -8,13 +8,13 @@ class Node:
     #Initialization updates the values accordingly and appends nodes to a list, .children.
     #The get-depth() function is used for printing out the solution string matrix, which displays either the steps needed to visit a node or an 'X' if it can't be reached.
     def __init__(self, matrix, x_pos, y_pos):
-        self.steps = matrix[x_pos][y_pos]
+        self.steps = int(matrix[x_pos][y_pos])
         self.visited = 0
         self.depth = -1
         self.children = []
         self.x = x_pos
         self.y = y_pos
-        self.pos = 'Node[' + self.x + '][' + self.y + ']'
+        # self.pos = 'Node[' + self.x + '][' + self.y + ']'
         self.get_children(matrix)
 
     def get_depth(self):
@@ -26,8 +26,9 @@ class Node:
     def get_children(self, matrix):
         index = len(matrix[0])
         #up direction
-        if self.x - self.steps >= 0:
-            self.children.append(matrix[self.x - self.steps][self.y])
+        up = self.x - self.steps
+        if up >= 0:
+            self.children.append(matrix[up][self.y])
         
         #down
         if self.x + self.steps < index:

@@ -94,7 +94,7 @@ class Application:
             SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 4:       #Hill Climbing with random walk
             iterations = int(self.iter_text.get())
-            probability = int(self.prob_text.get())
+            probability = float(self.prob_text.get())
 
             start_time = time()
             #random_walk(nodes[0][0], iterations, probability)

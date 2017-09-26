@@ -1,8 +1,7 @@
 import numpy as np
 import sys
 from random import randint
-import tkinter as tk
-sys.setrecursionlimit(50000)
+
 class Node:
     #The node class acts as a structure holding each matrix position's children, matrix location (x,y), and whether or not it has been visited, and the depth.
     #Initialization updates the values accordingly and appends nodes to a list, .children.
@@ -15,7 +14,6 @@ class Node:
         self.matrix = matrix
         self.x = x_pos
         self.y = y_pos
-        #self.get_children(matrix)
         self.index = len(matrix[0])
         
     def get_pos(self):

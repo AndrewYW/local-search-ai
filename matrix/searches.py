@@ -1,8 +1,29 @@
-from matrix_manip import *
+from .matrix_manip import *
+import queue
 
 def solve(node_matrix):
-    #BFS(node_matrix)
-    return 0
+    q = queue.Queue()
+    q.put(node_matrix[0][0])
+    node_matrix[0][0].depth = 0
+    print('')
+    while not q.empty(): 
+        node = q.get()
+        node.visited = 1 
+        depth = node.depth
+        if node.children: 
+            #print(node.children)
+            for x in range(len(node.children)):
+                #print(node.children[x].children)
+                if node.children[x].visited == 0:
+                    print('unvisited, adding node')
+                    print('PARENT NODE: ' + node.get_pos())
+                    print('Position: ' + node.children[x].get_pos())
+                    print('step value: ' + str(node.children[x].steps))
+                    print('set depth: ' + str(depth+1))
+                    q.put(node.children[x])
+                    node.children[x].depth = depth + 1 
+                    #print(len(node.children[x].children))
+    print('queue empty')
 def hill_climb(node_matrix, iterations):
     # Given an unsolved matrix, will attempt to solve and optimize
     # End result: stuff

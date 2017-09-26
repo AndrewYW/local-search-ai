@@ -64,7 +64,7 @@ class Application:
         nodes = create_node_matrix(self.matrix)        
 
         if self.var.get() == 1:         #Basic solution - no additional algorithm
-            #solve(nodes[0][0])
+            solve(nodes)
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             SolveWindow(solved_matrix, eval_function, '0')
@@ -143,15 +143,15 @@ class SolveWindow(tk.Toplevel):
                 label.grid(row=row, column=col, sticky="NSEW")
 
         eval_label = tk.Label(self, text='Evaluation function:').grid(
-            row=index+1, sticky="NSEW")
+            row=1, column=index+1, sticky="NSEW")
         eval_value = tk.Label(self, text=str(eval)).grid(
-            row=index+2, sticky="NSEW")
+            row=2, column=index+2, sticky="NSEW")
 
         if time != '0':
             time_label = tk.Label(self, text='Elapsed time:').grid(
-                row=index+1, column=1, sticky="NSEW")
+                row=3, column=1, sticky="NSEW")
             time_value = tk.Label(self, text=time).grid(
-                row=index+2, column=1, sticky="NSEW")
+                row=4, column=2, sticky="NSEW")
 
 
 # Test stuff

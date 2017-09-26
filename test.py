@@ -11,6 +11,9 @@ class node:
 def update(test, val):
     test.step += val
 
+def random(node):
+    node.depth+= 1
+
 if __name__ == '__main__':
     a = node(3)
     a.depth = 0
@@ -20,7 +23,14 @@ if __name__ == '__main__':
     print(a.depth)
     b = a
     b.visited = 1
-    b.depth = dep + 1
+
     
     print(b.visited)
+    random(b)
     print(b.depth)
+
+    a = b
+
+    print(a.step)
+    print(a.visited)
+    print(a.depth)

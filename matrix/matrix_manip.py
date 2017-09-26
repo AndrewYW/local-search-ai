@@ -2,7 +2,7 @@ import numpy as np
 import sys
 from random import randint
 import tkinter as tk
-
+sys.setrecursionlimit(50000)
 class Node:
     #The node class acts as a structure holding each matrix position's children, matrix location (x,y), and whether or not it has been visited, and the depth.
     #Initialization updates the values accordingly and appends nodes to a list, .children.
@@ -12,40 +12,96 @@ class Node:
         self.visited = 0
         self.depth = -1
         self.children = []
+        self.matrix = matrix
         self.x = x_pos
         self.y = y_pos
-        # self.pos = 'Node[' + self.x + '][' + self.y + ']'
-        self.get_children(matrix)
-
+        #self.get_children(matrix)
+        self.index = len(matrix[0])
+        
+    def get_pos(self):
+        return str('(' + str(self.x) + ',' + str(self.y) + ')')   
     def get_depth(self):
         if self.depth == -1:
             return 'X'
         else:
             return str(self.depth)
-
+    def get_up(self, nodes):
+        up = self.x - self.steps
+        if up >= 0:
+            #print('Position: [' + str(self.x) + '][' + str(self.y) + ']')
+            print('adding up at position[' + str(up) + '][' + str(self.y) + ']')
+            self.children.append(get_node(nodes, up, self.y))
+    def get_down(self, nodes):
+        down = self.x + self.steps
+        if down < self.index:
+            #print('Position: [' + str(self.x) + '][' + str(self.y) + ']')
+            print('adding down at position[' + str(down) + '][' + str(self.y) + ']')
+            self.children.append(get_node(nodes, down, self.y))
+    def get_left(self, nodes):
+        left = self.y - self.steps
+        if left >= 0:
+            #rint('Position: [' + str(self.x) + '][' + str(self.y) + ']')
+            print('adding left at position[' + str(self.x) + '][' + str(left) + ']')
+            self.children.append(get_node(nodes, self.x, left))
+    def get_right(self, nodes):
+        right = self.y + self.steps
+        if right < self.index:
+            #print('Position: [' + str(self.x) + '][' + str(self.y) + ']')
+            print('adding right at position[' + str(self.x) + '][' + str(right) + ']')
+            self.children.append(get_node(nodes, self.x, right))
     def get_children(self, matrix):
         index = len(matrix[0])
         #up direction
         up = self.x - self.steps
         if up >= 0:
-            self.children.append(matrix[up][self.y])
+            self.children.append(Node(matrix, up, self.y))
         
         #down
-        if self.x + self.steps < index:
-            self.children.append(matrix[self.x + self.steps][self.y])
+        down = self.x + self.steps
+        if down < index:
+            self.children.append(Node(matrix, down, self.y))
 
         #left
-        if self.y - self.steps >= 0:
-            self.children.append(matrix[self.x][self.y - self.steps])
+        left = self.y - self.steps
+        if left >= 0:
+            self.children.append(Node(matrix, self.x, left))
 
         #right 
-        if self.y + self.steps < index:
-            self.children.append(matrix[self.x][self.y + self.steps])
+        right = self.y + self.steps
+        if right < index:
+            self.children.append(Node(matrix, self.x, right))
+def get_node(nodes, x, y):
+    return nodes[x][y]
 def create_node_matrix(matrix):
     #creates a matrix of nodes given an integer matrix formed either randomly or from a file.
     index = len(matrix[0])
-    node_matrix = [[Node(matrix, i, j) for i in range(index)] for j in range(index)]
-    
+    #node_matrix = [[Node(matrix, i, j) for i in range(index)] for j in range(index)]
+    node_matrix = []
+    for i in range(index):
+        node_matrix.append([])
+        for j in range(index):
+            node_matrix[i].append(Node(matrix, i, j))
+    for row, i in enumerate(node_matrix):
+        for col, j in enumerate(i):
+            if row == index and col == index:
+                pass
+            else:
+                print('position [' + str(row) + '][' + str(col) + ']')
+                print('Step value: ' + str(node_matrix[row][col].steps))
+                node_matrix[row][col].get_up(node_matrix)
+                node_matrix[row][col].get_down(node_matrix)
+                node_matrix[row][col].get_left(node_matrix)
+                node_matrix[row][col].get_right(node_matrix)
+    print('nodes[4][3]')
+    drn = len(node_matrix[4][3].children)
+    drp = len(node_matrix[2][1].children)
+    for x in range(drn):
+        print(node_matrix[4][3].children[x].get_pos())
+        print(node_matrix[4][3].children[x].steps)
+    print('nodes[2][1]')
+    for x in range(drp):
+        print(node_matrix[2][1].children[x].get_pos())
+        print(node_matrix[2][1].children[x].steps)
     return node_matrix
 
 def generate_random_matrix(index):

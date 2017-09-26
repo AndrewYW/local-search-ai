@@ -1,7 +1,5 @@
 import sys
 from matrix.matrix_manip import *
-from matrix.gui import *
-
 
 def main():
     mode = int(

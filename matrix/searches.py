@@ -1,7 +1,6 @@
 from .matrix_manip import *
+from random import random
 import queue
-from copy import copy, deepcopy
-import math
 
 def solve(node_matrix):
     q = queue.Queue()
@@ -18,38 +17,27 @@ def solve(node_matrix):
                     item.depth = depth + 1
 def hill_climb(node_matrix, iterations):
     # Given an unsolved matrix, will attempt to solve and optimize
-    # End result: stuff
+    # Return value: post-solve node matrix
+    reset_matrix(node_matrix)
     index = len(node_matrix[0])
     for step in range(iterations):
         step_matrix = create_step_matrix(node_matrix)
         temp_matrix = create_node_matrix(step_matrix)
 
-        # Change random steps to random legal move
         temp_matrix = random_step_change(temp_matrix, index)
-        #print('Node matrix: ')
-        #print_step_matrix(node_matrix)
-        #print('Mutated matrix: ')
-        #print_step_matrix(temp_matrix)
 
         solve(node_matrix)
         solve(temp_matrix)
         node_eval = get_eval_from_nodes(node_matrix)
-        #print('Iteration: ' + str(step))
-        #print('Node eval: ' + str(node_eval))
         temp_eval = get_eval_from_nodes(temp_matrix)
-        #print('Temp eval: ' + str(temp_eval))
 
         # If new evaluation function is better, then node matrix becomes new one
         # Node matrix's depth and visited are reset so you can run solve again
         if temp_eval >= node_eval:
-            #print('Replacing node')
             node_matrix = temp_matrix
             reset_matrix(node_matrix)
         else:
-            #print('Discarding changes')
             reset_matrix(node_matrix)
-    #print("Final mutated matrix: ")
-    #print_step_matrix(node_matrix)
     solve(node_matrix)
     return node_matrix
 
@@ -57,27 +45,30 @@ def random_restart(node_matrix, iterations, restarts):
     reset_matrix(node_matrix)
     index = len(node_matrix[0])
     for step in range(restarts):
-        temp_matrix = deepcopy(node_matrix)
-        hill_climb(temp_matrix, iterations)
+        temp_matrix = hill_climb(node_matrix, iterations)
         temp_eval = get_eval_from_nodes(temp_matrix)
         node_eval = get_eval_from_nodes(node_matrix)
 
         if temp_eval >= node_eval:
             node_matrix = temp_matrix
             reset_matrix(node_matrix)
+            print('Hill climb accepted on step: ' + str(step))
         else:
             reset_matrix(node_matrix)
     solve(node_matrix)
+    return node_matrix
 def random_walk(node_matrix, iterations, prob):
     reset_matrix(node_matrix)
     index = len(node_matrix[0])
 
     for step in range(iterations):
-        temp_matrix = node_matrix
+        step_matrix = create_step_matrix(node_matrix)
+        temp_matrix = create_node_matrix(step_matrix)
 
         random_step_change(temp_matrix, index)
 
-        roll = random.random()
+        roll = random()
+        print('Roll: ' + str(roll))
         if roll > prob: #roll fail
             solve(node_matrix)
             solve(temp_matrix)
@@ -93,6 +84,7 @@ def random_walk(node_matrix, iterations, prob):
             node_matrix = temp_matrix
             reset_matrix(node_matrix)
     solve(node_matrix)
+    return node_matrix
 
 def annealing(node, iterations, temp, decay):
 

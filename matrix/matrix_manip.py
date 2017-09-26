@@ -28,48 +28,20 @@ class Node:
     def get_up(self, nodes):
         up = self.x - self.steps
         if up >= 0:
-            #print('Position: [' + str(self.x) + '][' + str(self.y) + ']')
-            print('adding up at position[' + str(up) + '][' + str(self.y) + ']')
             self.children.append(get_node(nodes, up, self.y))
     def get_down(self, nodes):
         down = self.x + self.steps
         if down < self.index:
-            #print('Position: [' + str(self.x) + '][' + str(self.y) + ']')
-            print('adding down at position[' + str(down) + '][' + str(self.y) + ']')
             self.children.append(get_node(nodes, down, self.y))
     def get_left(self, nodes):
         left = self.y - self.steps
         if left >= 0:
-            #rint('Position: [' + str(self.x) + '][' + str(self.y) + ']')
-            print('adding left at position[' + str(self.x) + '][' + str(left) + ']')
             self.children.append(get_node(nodes, self.x, left))
     def get_right(self, nodes):
         right = self.y + self.steps
         if right < self.index:
-            #print('Position: [' + str(self.x) + '][' + str(self.y) + ']')
-            print('adding right at position[' + str(self.x) + '][' + str(right) + ']')
             self.children.append(get_node(nodes, self.x, right))
-    def get_children(self, matrix):
-        index = len(matrix[0])
-        #up direction
-        up = self.x - self.steps
-        if up >= 0:
-            self.children.append(Node(matrix, up, self.y))
-        
-        #down
-        down = self.x + self.steps
-        if down < index:
-            self.children.append(Node(matrix, down, self.y))
 
-        #left
-        left = self.y - self.steps
-        if left >= 0:
-            self.children.append(Node(matrix, self.x, left))
-
-        #right 
-        right = self.y + self.steps
-        if right < index:
-            self.children.append(Node(matrix, self.x, right))
 def get_node(nodes, x, y):
     return nodes[x][y]
 def create_node_matrix(matrix):
@@ -88,29 +60,7 @@ def create_node_matrix(matrix):
                 node.get_down(node_matrix)
                 node.get_left(node_matrix)
                 node.get_right(node_matrix)
-    '''            
-    for row, i in enumerate(node_matrix):
-        for col, j in enumerate(i):
-            if not (row == index and col == index):
-                print('position [' + str(row) + '][' + str(col) + ']')
-                print('Step value: ' + str(node_matrix[row][col].steps))
-                node_matrix[row][col].get_up(node_matrix)
-                node_matrix[row][col].get_down(node_matrix)
-                node_matrix[row][col].get_left(node_matrix)
-                node_matrix[row][col].get_right(node_matrix)
-    
-    print('nodes[4][3]')
-    drn = len(node_matrix[4][3].children)
-    drp = len(node_matrix[2][1].children)
-    for x in range(drn):
-        print(node_matrix[4][3].children[x].get_pos())
-        print(node_matrix[4][3].children[x].steps)
-    print('nodes[2][1]')
-    for x in range(drp):
-        print(node_matrix[2][1].children[x].get_pos())
-        print(node_matrix[2][1].children[x].steps)
-    '''
-    print_edges(node_matrix)
+    #print_edges(node_matrix)
     return node_matrix
 
 def generate_random_matrix(index):

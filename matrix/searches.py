@@ -5,44 +5,15 @@ def solve(node_matrix):
     q = queue.Queue()
     q.put(node_matrix[0][0])
     node_matrix[0][0].depth = 0
-    #print('')
     while not q.empty():
         node = q.get()
         if node.visited == 0:
-            print('Checking node at: ' + node.get_pos())
-            print('Depth value: ' + str(node.depth))
             node.visited = 1
             depth = node.depth
             for item in node.children:
                 q.put(item)
                 if item.depth == -1:
                     item.depth = depth + 1
-            print('Placed ' + str(len(node.children)) + ' children into queue')
-    print('end queue')
-    '''
-    while not q.empty(): 
-        node = q.get()
-        node.visited = 1 
-        if node.visited == 0:
-            depth = node.depth
-        if node.children: 
-            #print(node.children)
-            for x in range(len(node.children)):
-                #print(node.children[x].children)
-                if node.children[x].visited == 0:
-                    
-                    print('unvisited, adding node')
-                    print('PARENT NODE: ' + node.get_pos())
-                    print('Position: ' + node.children[x].get_pos())
-                    print('step value: ' + str(node.children[x].steps))
-                    print('set depth: ' + str(depth+1))
-                    
-                    q.put(node.children[x])
-                    node.children[x].depth = depth + 1 
-                    node.children[x].visited = 1
-                    #print(len(node.children[x].children))
-    # print('queue empty')
-    '''
 def hill_climb(node_matrix, iterations):
     # Given an unsolved matrix, will attempt to solve and optimize
     # End result: stuff

@@ -1,6 +1,5 @@
 import tkinter as tk
 from time import time
-from .matrix_manip import *
 from .searches import *
 
 class Application:
@@ -71,62 +70,52 @@ class Application:
             reset_matrix(nodes)
         elif self.var.get() == 2:       #Basic Hill Climbing
             iterations = int(self.iter_text.get())
-            #solve(nodes)
-            #eval_f= get_eval_from_nodes(nodes)
-            #SolveWindow(generate_str_depth_matrix(nodes), eval_f, '0')
-            #reset_matrix(nodes)
-            start_time = time()
+
+            start_ms = int(round(time() * 1000))
             solution = hill_climb(nodes, iterations)
-            end_time = time() - start_time
-
-            '''            
-            print("Solution matrix: ")
-            print_step_matrix(solution)
-
-            print("Solution depth matrix")
-            print_depth_matrix(solution)
-            '''
+            end_ms = int(round(time() * 1000)) - start_ms
 
             eval_function = get_eval_from_nodes(solution)
             solved_matrix = generate_str_depth_matrix(solution)
-            elapsed = str(end_time)
+            elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            nodes = create_node_matrix(self.matrix)
         elif self.var.get() == 3:       #Hill CLimbing with random restart
             iterations = int(self.iter_text.get())
             restarts = int(self.restart_text.get())
 
-            start_time = time()
-            #random_restart(nodes[0][0], iterations, restarts)
-            end_time = time() - start_time
+            start_ms = int(round(time() * 1000))
+            sol = random_restart(nodes, iterations, restarts)
+            end_ms = int(round(time() * 1000)) - start_ms
             
-            eval_function = get_eval_from_nodes(nodes)
-            solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(end_time) + '  seconds'
+            eval_function = get_eval_from_nodes(sol)
+            solved_matrix = generate_str_depth_matrix(sol)
+            elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 4:       #Hill Climbing with random walk
             iterations = int(self.iter_text.get())
             probability = float(self.prob_text.get())
 
-            start_time = time()
+            start_ms = int(round(time() * 1000))
             #random_walk(nodes[0][0], iterations, probability)
-            end_time = time()
+            end_ms = int(round(time() * 1000)) - start_ms
 
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(end_time - start_time)
+            elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
         elif self.var.get() == 5:       #Simulated Annealing
             iterations = int(self.iter_text.get())
             temp = int(self.temp_text.get())
-            decay = int(self.decay_text.get())
+            decay = float(self.decay_text.get())
 
-            start_time = time()
+            start_ms = int(round(time() * 1000))
             #annealing(nodes[0][0], interations, temp, decay)
-            end_time = time()
+            end_ms = int(round(time() * 1000)) - start_ms
 
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
-            elapsed = str(end_time - start_time)
+            elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
         else:
             print('No option selected')
@@ -159,7 +148,7 @@ class SolveWindow(tk.Toplevel):
             row=2, column=index+2, sticky="NSEW")
 
         if time != '0':
-            time += 'seconds'
+            time += ' ms'
             time_label = tk.Label(self, text='Elapsed time:').grid(
                 row=3, column=index+1, sticky="NSEW")
             time_value = tk.Label(self, text=time).grid(

@@ -1,6 +1,7 @@
 from .matrix_manip import *
 import queue
 from copy import copy, deepcopy
+import math
 
 def solve(node_matrix):
     q = queue.Queue()
@@ -94,7 +95,28 @@ def random_walk(node_matrix, iterations, prob):
     solve(node_matrix)
 
 def annealing(node, iterations, temp, decay):
-    return 0
+
+    t = temp * decay
+    
+    for step in range(iterations):
+        clone = random_step_change(nodes)
+        e_clone = get_eval_from_nodes(clone)
+        e_nodes = get_eval_from_nodes(nodes)
+        if e_clone > e_nodes:
+            nodes = clone 
+            e_nodes = e_clone
+        else : 
+            prob = math.exp((e_clone - e_nodes) / t)
+            roll = random.random()
+            if roll > prob: 
+                nodes = clone 
+                e_nodes = e_clone
+                t = temp * decay
+                reset
+            else : 
+                t = temp * decay
+                reset
+
 def random_step_change(nodes, index):
     #Select random matrix spot, can't change node_matrix[index-1][index-1]
     row = randint(0, index-1)

@@ -1,4 +1,5 @@
 from .matrix_manip import *
+from random import random
 import queue
 
 def solve(node_matrix):
@@ -61,11 +62,13 @@ def random_walk(node_matrix, iterations, prob):
     index = len(node_matrix[0])
 
     for step in range(iterations):
-        temp_matrix = node_matrix
+        step_matrix = create_step_matrix(node_matrix)
+        temp_matrix = create_node_matrix(step_matrix)
 
         random_step_change(temp_matrix, index)
 
-        roll = random.random()
+        roll = random()
+        print('Roll: ' + str(roll))
         if roll > prob: #roll fail
             solve(node_matrix)
             solve(temp_matrix)
@@ -81,6 +84,7 @@ def random_walk(node_matrix, iterations, prob):
             node_matrix = temp_matrix
             reset_matrix(node_matrix)
     solve(node_matrix)
+    return node_matrix
 
 def annealing(node, iterations, temp, decay):
     return 0

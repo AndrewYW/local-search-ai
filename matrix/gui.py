@@ -67,7 +67,7 @@ class Application:
             eval_function = get_eval_from_nodes(nodes)
             solved_matrix = generate_str_depth_matrix(nodes)
             SolveWindow(solved_matrix, eval_function, '0')
-            reset_matrix(nodes)
+            nodes = create_node_matrix(self.matrix)
         elif self.var.get() == 2:       #Basic Hill Climbing
             iterations = int(self.iter_text.get())
 
@@ -92,18 +92,20 @@ class Application:
             solved_matrix = generate_str_depth_matrix(sol)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            nodes = create_node_matrix(self.matrix)
         elif self.var.get() == 4:       #Hill Climbing with random walk
             iterations = int(self.iter_text.get())
             probability = float(self.prob_text.get())
 
             start_ms = int(round(time() * 1000))
-            #random_walk(nodes[0][0], iterations, probability)
+            sol = random_walk(nodes, iterations, probability)
             end_ms = int(round(time() * 1000)) - start_ms
 
-            eval_function = get_eval_from_nodes(nodes)
-            solved_matrix = generate_str_depth_matrix(nodes)
+            eval_function = get_eval_from_nodes(sol)
+            solved_matrix = generate_str_depth_matrix(sol)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            nodes = create_node_matrix(self.matrix)
         elif self.var.get() == 5:       #Simulated Annealing
             iterations = int(self.iter_text.get())
             temp = int(self.temp_text.get())
@@ -117,6 +119,7 @@ class Application:
             solved_matrix = generate_str_depth_matrix(nodes)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            nodes = create_node_matrix(self.matrix)
         else:
             print('No option selected')
 

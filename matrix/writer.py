@@ -27,3 +27,9 @@ def write_anneal(size, eval, iteration, time, temp, decay):
     with open (csvfile, 'a') as output:
         writer = csv.writer (output, delimiter = ',')
         writer.writerow(row)
+def write_genes(size, eval, iteration, time, elitism, tourney, crossover):
+    row = [size, eval, iteration, time, elitism, tourney, crossover]
+    csvfile = 'genetics.csv'
+    with open (csvfile, 'a') as output:
+        writer = csv.writer (output, delimiter = ',')
+        writer.writerow(row)

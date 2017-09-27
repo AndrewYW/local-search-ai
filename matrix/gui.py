@@ -34,18 +34,23 @@ class Application:
             row=4,sticky="NSEW")
         self.annealing = tk.Radiobutton(master,text='Simulated Annealing',variable=self.var,value=5,command=self.set_var).grid(
             row=5,sticky="NSEW")
+        self.genetics = tk.Radiobutton(master, text='Genetic Alg',variable=self.var,value=6,command=self.set_var).grid(
+            row=1, column = 1,sticky="NSEW")
 
-        self.iter_text= tk.StringVar(master, value='Enter number of iterations')
-        self.restart_text= tk.StringVar(master, value='Enter number of restarts')
-        self.prob_text= tk.StringVar(master, value='Enter Walk probability')
-        self.temp_text= tk.StringVar(master, value='Enter initial temp')
-        self.decay_text= tk.StringVar(master, value='Enter temp decay rate')
+        self.iter_text= tk.StringVar(master, value='Iterations')
+        self.restart_text= tk.StringVar(master, value='Restarts/Pop_size')
+        self.prob_text= tk.StringVar(master, value='Walk/Crossover')
+        self.temp_text= tk.StringVar(master, value='Temp/Elitism')
+        self.decay_text= tk.StringVar(master, value='Decay/Pickrate')
+        self.mutate= tk.StringVar(master, value='Mutation')
         self.iterations = tk.Entry(master,textvariable=self.iter_text).grid(
             row=index+1,sticky="NSEW")
         self.restarts = tk.Entry(master,textvariable=self.restart_text).grid(
             row=index+2,sticky="NSEW")
         self.probability = tk.Entry(master,textvariable=self.prob_text).grid(
             row=index+3,sticky="NSEW")
+        self.mutation = tk.Entry(master,textvariable=self.mutate).grid(
+            row=index+4,sticky="NSEW")
         self.temperature = tk.Entry(master,textvariable=self.temp_text).grid(
             row=index+1,column=1,sticky="NSEW")
         self.tempDecay = tk.Entry(master,textvariable=self.decay_text).grid(
@@ -123,6 +128,24 @@ class Application:
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
             nodes = create_node_matrix(self.matrix)
+        elif self.var.get() == 6:       #Genetics
+            pop_size = int(self.restart_text.get())
+            iterations = int(self.iter_text.get())
+            elite_rate = float(self.temp_text.get())
+            tourney_rate = float(self.decay_text.get())
+            crossover = float(self.prob_text.get())
+            mutate = float(self.mutate.get())
+
+            start_ms = int(round(time() * 1000))
+            sol = genetics(self.matrix, pop_size, iterations, elite_rate, tourney_rate, crossover, mutate)
+            end_ms = int(round(time() * 1000)) - start_ms
+            solve(sol)
+            eval_function = get_eval_from_nodes(sol)
+            solved_matrix = generate_str_depth_matrix(sol)
+            elapsed = str(end_ms)
+            SolveWindow(solved_matrix, eval_function, elapsed)
+            nodes = create_node_matrix(self.matrix)
+
         else:
             print('No option selected')
 

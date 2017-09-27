@@ -146,6 +146,7 @@ class Application:
             solved_matrix = generate_str_depth_matrix(sol)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            write_genes(len(nodes), eval_function, iterations, elapsed, elite_rate, tourney_rate, crossover)
             nodes = create_node_matrix(self.matrix)
 
         else:

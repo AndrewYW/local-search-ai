@@ -1,6 +1,7 @@
 import tkinter as tk
 from time import time
 from .searches import *
+from .writer import *
 
 class Application:
 
@@ -79,6 +80,7 @@ class Application:
             solved_matrix = generate_str_depth_matrix(solution)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            write_hill(len(nodes), eval_function, iterations)
             nodes = create_node_matrix(self.matrix)
         elif self.var.get() == 3:       #Hill CLimbing with random restart
             iterations = int(self.iter_text.get())
@@ -92,6 +94,7 @@ class Application:
             solved_matrix = generate_str_depth_matrix(sol)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
+            write_restart(len(nodes),restarts,eval_function,iterations)
             nodes = create_node_matrix(self.matrix)
         elif self.var.get() == 4:       #Hill Climbing with random walk
             iterations = int(self.iter_text.get())

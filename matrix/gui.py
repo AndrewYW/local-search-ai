@@ -112,11 +112,11 @@ class Application:
             decay = float(self.decay_text.get())
 
             start_ms = int(round(time() * 1000))
-            #annealing(nodes[0][0], interations, temp, decay)
+            sol = annealing(nodes, iterations, temp, decay)
             end_ms = int(round(time() * 1000)) - start_ms
 
-            eval_function = get_eval_from_nodes(nodes)
-            solved_matrix = generate_str_depth_matrix(nodes)
+            eval_function = get_eval_from_nodes(sol)
+            solved_matrix = generate_str_depth_matrix(sol)
             elapsed = str(end_ms)
             SolveWindow(solved_matrix, eval_function, elapsed)
             nodes = create_node_matrix(self.matrix)
